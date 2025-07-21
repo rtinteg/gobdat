@@ -7,5 +7,4 @@ sources:
     tables:
       - name: CUSTOMER
         description: "Tabla original de CLIENTES"
-    config:
-      materialized: table
+        
