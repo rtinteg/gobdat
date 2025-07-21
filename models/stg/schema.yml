@@ -9,5 +9,17 @@ sources:
     tables:
       - name: CUSTOMER
         description: "Tabla original de CLIENTES"
-
-
+      - name: LINEITEM
+        description: "Tabla original de LINEAS DE PEDIDOS"
+      - name: NATION
+        description: "Tabla original de PAISES"
+      - name: ORDERS
+        description: "Tabla original de PEDIDOS"
+      - name: PART
+        description: "Tabla original de PARTES"   
+      - name: PARTSUPP
+        description: "Tabla original de PARTES DE PROVEEDORES"      
+      - name: REGION
+        description: "Tabla original de REGIONES"
+      - name: SUPPLIER
+        description: "Tabla original de PROVEEDORES"
