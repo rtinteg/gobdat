@@ -4,6 +4,8 @@ sources:
   - name: stg
     database: SNOWFLAKE_SAMPLE_DATA
     schema: TPCH_SF1
+    config:
+      materialized: view
     tables:
       - name: CUSTOMER
         description: "Tabla original de CLIENTES"
