@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: stg
+    database: SNOWFLAKE_SAMPLE_DATA
+    schema: TPCH_SF1
+    tables:
+      - name: CUSTOMERS
+        description: "Tabla original de CLIENTES"
+
+        
