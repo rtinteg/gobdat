@@ -33,5 +33,7 @@ sources:
       - name: STG_CLIENTES
       - name: STG_PAISES
       - name: STG_PARTES
+      - name: STG_PROVEEDORES
       
+
 
