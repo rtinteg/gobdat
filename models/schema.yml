@@ -1,7 +1,7 @@
 version: 2
 
 sources:
-  - name: stg
+  - name: src
     database: SNOWFLAKE_SAMPLE_DATA
     schema: TPCH_SF1
    # config:
@@ -24,7 +24,7 @@ sources:
       - name: SUPPLIER
         description: "Tabla original de PROVEEDORES"
 
-  - name: stg1
+  - name: stg
     database: SDGVAULTMART
     schema: DBT_SDGVAULT
     #config:

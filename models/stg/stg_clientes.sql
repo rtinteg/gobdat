@@ -1,5 +1,5 @@
 -- {{ config(materialized="table") }}
 
-with stg_clientes as (select * from {{ source("stg", "CUSTOMER") }})
+with stg_clientes as (select * from {{ source("src", "CUSTOMER") }})
 select *
 from stg_clientes
