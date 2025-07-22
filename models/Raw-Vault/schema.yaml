@@ -1,6 +1,6 @@
 version: 2
 
-models:
+source:
   - name: stg
     database: SDGVAULTMART
     schema: DBT_SDGVAULT
