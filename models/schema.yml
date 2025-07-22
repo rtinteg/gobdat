@@ -4,8 +4,8 @@ sources:
   - name: stg
     database: SNOWFLAKE_SAMPLE_DATA
     schema: TPCH_SF1
-    config:
-      materialized: "table"
+   # config:
+   #   materialized: "table"
     tables:
       - name: CUSTOMER
         description: "Tabla original de CLIENTES"
@@ -27,7 +27,7 @@ sources:
   - name: stg1
     database: SDGVAULTMART
     schema: DBT_SDGVAULT
-    config:
-      materialized: "table"
+    #config:
+    #  materialized: "table"
     tables:
       - name: STG_CLIENTES
