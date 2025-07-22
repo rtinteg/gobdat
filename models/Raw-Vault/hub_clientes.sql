@@ -5,7 +5,7 @@ with
             c_name as nombre_cliente,
             current_date as fecha_carga,
             'Snowflake' as origen
-        from {{ ref("stg_clientes") }}
+        from {{ ref("stg_clientes")}}
     )
 select *
 from hub_clientes
