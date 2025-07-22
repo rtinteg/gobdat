@@ -34,6 +34,8 @@ sources:
       - name: STG_PAISES
       - name: STG_PARTES
       - name: STG_PROVEEDORES
+      - name: STG_REGIONES
       
+
 
 

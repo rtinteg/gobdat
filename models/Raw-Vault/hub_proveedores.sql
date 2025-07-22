@@ -6,7 +6,7 @@ with
             current_date as fecha_carga,
             'Snowflake' as origen
         
-        from {{ source("stg","stg_p") }}
+        from {{ source("stg","STG_PROVEEDORES") }}
     )
 select *
 from hub_proveedores
