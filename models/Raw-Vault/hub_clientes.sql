@@ -3,5 +3,4 @@ select
     c_name as NOMBRE_CLIENTE,
     current_date as FECHA_CARGA,
     'Snowflake' as ORIGEN
-from {{ source("stg", "stg_clientes") }}
--- from {{ ref("stg_clientes")}}
+from {{ ref("stg_clientes")}}

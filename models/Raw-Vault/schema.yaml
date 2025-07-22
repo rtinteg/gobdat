@@ -1,7 +1,7 @@
 version: 2
 
 source:
-  - name: stg
+  - name: stg1
     database: SDGVAULTMART
     schema: DBT_SDGVAULT
     config:
