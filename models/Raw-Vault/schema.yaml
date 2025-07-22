@@ -5,21 +5,7 @@ source:
     database: SDGVAULTMART
     schema: DBT_SDGVAULT
     config:
-      materialized: 'table'
+      materialized: "table"
     tables:
       - name: STG_CLIENTES
-        description: "Tabla staging de CLIENTES"
-      - name: STG_LINEAS_PEDIDO
-        description: "Tabla staging de LINEAS DE PEDIDOS"
-      - name: STG_PAISES
-        description: "Tabla staging de PAISES"
-      - name: STG_PEDIDOS
-        description: "Tabla staging de PEDIDOS"
-      - name: STG_PARTES
-        description: "Tabla staging de PARTES"   
-      - name: STG_PARTES_PROVEEDOR
-        description: "Tabla staging de PARTES DE PROVEEDORES"      
-      - name: STG_REGIONES
-        description: "Tabla staging de REGIONES"
-      - name: STG_PROVEEDORES
-        description: "Tabla staging de PROVEEDORES"
+      
