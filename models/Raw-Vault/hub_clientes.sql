@@ -1,6 +1,11 @@
-select 
-    md5(upper(trim(nvl(c_name,'')))) as HUB_cliente_id,
-    c_name as NOMBRE_CLIENTE,
-    current_date as FECHA_CARGA,
-    'Snowflake' as ORIGEN
-from {{ ref("stg_clientes")}}
+with
+    hub_clientes as (
+        select
+            md5(upper(trim(nvl(c_name, '')))) as hub_cliente_id,
+            c_name as nombre_cliente,
+            current_date as fecha_carga,
+            'Snowflake' as origen
+        from {{ ref("stg_clientes") }}
+    )
+select *
+from hub_clientes
