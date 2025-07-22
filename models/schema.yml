@@ -35,7 +35,9 @@ sources:
       - name: STG_PARTES
       - name: STG_PROVEEDORES
       - name: STG_REGIONES
+      - name: STG_LINEAS_PEDIDO
       
+
 
 
 
