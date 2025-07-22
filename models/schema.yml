@@ -31,3 +31,5 @@ sources:
     #  materialized: "table"
     tables:
       - name: STG_CLIENTES
+      - name: STG_PAISES
+      
