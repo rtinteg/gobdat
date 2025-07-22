@@ -4,3 +4,4 @@ select
     current_date as FECHA_CARGA,
     'Snowflake' as ORIGEN
 from {{ ref("stg_clientes")}}
+--{{ resolve_model_name ("stg", "STG_CLIENTES") }}
