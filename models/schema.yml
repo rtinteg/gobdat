@@ -5,7 +5,7 @@ sources:
     database: SNOWFLAKE_SAMPLE_DATA
     schema: TPCH_SF1
     config:
-      materialized: 'table'
+      materialized: "table"
     tables:
       - name: CUSTOMER
         description: "Tabla original de CLIENTES"
@@ -16,10 +16,18 @@ sources:
       - name: ORDERS
         description: "Tabla original de PEDIDOS"
       - name: PART
-        description: "Tabla original de PARTES"   
+        description: "Tabla original de PARTES"
       - name: PARTSUPP
-        description: "Tabla original de PARTES DE PROVEEDORES"      
+        description: "Tabla original de PARTES DE PROVEEDORES"
       - name: REGION
         description: "Tabla original de REGIONES"
       - name: SUPPLIER
         description: "Tabla original de PROVEEDORES"
+
+  - name: stg1
+    database: SDGVAULTMART
+    schema: DBT_SDGVAULT
+    config:
+      materialized: "table"
+    tables:
+      - name: STG_CLIENTES
