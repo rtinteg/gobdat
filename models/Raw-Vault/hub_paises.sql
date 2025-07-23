@@ -4,9 +4,8 @@ with
             md5(upper(trim(nvl(n_name, '')))) as hub_pais_id,
             n_name as nombre_pais,
             current_date as fecha_carga,
-            'Snowflake' as origen
-        
-        from {{ source("stg","STG_PAISES") }}
+            n_origen as origen
+        from {{ source("stg", "STG_PAISES") }}
     )
 select *
 from hub_paises
