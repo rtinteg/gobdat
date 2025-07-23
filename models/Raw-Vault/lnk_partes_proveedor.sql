@@ -7,12 +7,14 @@ with
             p_name as nombre_parte,
             p_brand as nombre_marca
         from {{ source("stg", "STG_PARTES") }}
+        limit 5000
     ),
     stg_proveedor as (
         select
             md5(upper(trim(nvl(s_name, '')))) as proveedor_id,
             s_name as nombre_proveedor,
         from {{ source("stg", "STG_PROVEEDORES") }}
+        limit 1000
     )
 select
     md5(
