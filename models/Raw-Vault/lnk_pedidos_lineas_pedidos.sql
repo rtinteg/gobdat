@@ -30,7 +30,6 @@ select
     p2.hub_lineas_pedido_id,
     p1.clave_pedido,
     p1.empleado,
-    p2.clave_pedido,
     p2.linea_pedido,
     current_date as fecha_carga,
     p3.o_origen as origen_pedido,
@@ -38,4 +37,4 @@ select
 from hub_pedidos p1, hub_lineas_pedidos p2, stg_pedidos_lineas_pedidos p3
 where
     (p1.clave_pedido = p3.o_orderkey and p1.empleado = p3.o_clerk)
-    and (p2.clave_pedido = p3.l_orderkey and p2.linea_pedido = p3.l_linenumber)
+    and (p1.clave_pedido = p3.l_orderkey and p2.linea_pedido = p3.l_linenumber)
