@@ -17,6 +17,14 @@ with
             s_name as nombre_proveedor
         from {{ source("stg", "STG_PROVEEDORES") }}
         where s_nationkey in (22, 23, 24)  -- para reducir tiempos y limitar el volumen se filtra para EEUU, UK, RUSIA y ALEMANIA
+    ),
+    stg_pedidos as (
+        select
+            md5(upper(trim(nvl(o_orderkey, '')))) as hub_pedido_id,
+            o_orderkey as clave_pedido            
+        from {{ source("stg", "STG_PEDIDOS") }}
+        where o_clerk in ('Clerk#000000542','Clerk#000000081','Clerk#000000901') -- para reducir tiempos y limitar el volumen se filtra por empleado
+
     )
 select
     md5(
