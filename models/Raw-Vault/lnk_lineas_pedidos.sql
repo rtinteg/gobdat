@@ -7,16 +7,15 @@ with
             p_name as nombre_parte,
             p_brand as nombre_marca
         from {{ source("stg", "STG_PARTES") }}
-        where
-            p_type
-            in ('ECONOMY ANODIZED STEEL', 'LARGE PLATED STEEL', 'PROMO BRUSHED BRASS')  -- para reducir tiempos y limitar el volumen se filtra por tipos
+        where p_type = 'ECONOMY ANODIZED STEEL'
+      -- para reducir tiempos y limitar el volumen se filtra por tipos
     ),
     stg_proveedor as (
         select
             md5(upper(trim(nvl(s_name, '')))) as proveedor_id,
             s_name as nombre_proveedor
         from {{ source("stg", "STG_PROVEEDORES") }}
-        where s_nationkey in (22, 23, 24)  -- para reducir tiempos y limitar el volumen se filtra para EEUU, UK, RUSIA y ALEMANIA
+        where s_nationkey = 22  -- para reducir tiempos y limitar el volumen se filtra para EEUU, UK, RUSIA y ALEMANIA
     ),
     stg_pedidos as (
         select
@@ -26,7 +25,7 @@ with
             o_orderkey as clave_pedido,
             o_clerk as empleado
         from {{ source("stg", "STG_PEDIDOS") }}
-        where o_clerk in ('Clerk#000000542', 'Clerk#000000081', 'Clerk#000000901')  -- para reducir tiempos y limitar el volumen se filtra por empleado
+        where o_clerk = 'Clerk#000000542' -- para reducir tiempos y limitar el volumen se filtra por empleado
     )
 select
     md5(
