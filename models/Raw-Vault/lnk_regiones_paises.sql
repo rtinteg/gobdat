@@ -1,18 +1,18 @@
 with
-    stg_regiones as (
-        select md5(upper(trim(nvl(r_name, '')))) as region_id, r_name as nombre_region,
-        from {{ source("stg", "STG_REGIONES") }}
+    hub_regiones as (
+        select hub_region_id, nombre_region from {{ source("raw", "HUB_REGIONES") }}
     ),
-    stg_paises as (
-        select md5(upper(trim(nvl(n_name, '')))) as hub_pais_id, n_name as nombre_pais,
-        from {{ source("stg", "STG_PAISES") }}
+    hub_paises as (
+        select hub_pais_id, nombre_pais, from {{ source("raw", "HUB_PAISES") }}
     )
 select
     md5(
         upper(trim(nvl(p1.nombre_region, ''))) || upper(trim(nvl(p2.nombre_pais, '')))
     ) as lnk_regiones_paises_id,
+    p1.hub_region_id,
+    p2.hub_pais_id,
     p1.nombre_region,
     p2.nombre_pais,
     current_date as fecha_carga,
     'Snowflake' as origen
-from stg_regiones p1, stg_paises p2
+from hub_regiones p1, hub_paises p2
