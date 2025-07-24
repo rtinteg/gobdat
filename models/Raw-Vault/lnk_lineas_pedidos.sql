@@ -36,7 +36,7 @@ select
             || upper(trim(nvl(p3.clave_pedido, '')))
             || upper(trim(nvl(p3.empleado, '')))
         )
-    ) as lnk_partes_proveedor_id,
+    ) as lnk_lineas_pedidos_id,
     p1.parte_id,
     p2.proveedor_id,
     p3.pedido_id,
