@@ -7,8 +7,8 @@ with
             p_name as nombre_parte,
             p_brand as nombre_marca
         from {{ source("stg", "STG_PARTES") }}
-        where p_type = 'ECONOMY ANODIZED STEEL'
-      -- para reducir tiempos y limitar el volumen se filtra por tipos
+        where p_type = 'ECONOMY ANODIZED STEEL' and p_container = 'JUMBO PKG'
+    -- para reducir tiempos y limitar el volumen se filtra por tipos
     ),
     stg_proveedor as (
         select
@@ -25,7 +25,7 @@ with
             o_orderkey as clave_pedido,
             o_clerk as empleado
         from {{ source("stg", "STG_PEDIDOS") }}
-        where o_clerk = 'Clerk#000000542' -- para reducir tiempos y limitar el volumen se filtra por empleado
+        where o_clerk = 'Clerk#000000542'  -- para reducir tiempos y limitar el volumen se filtra por empleado
     )
 select
     md5(
