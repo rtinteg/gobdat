@@ -1,5 +1,5 @@
 with
-    sat_clientes as (
+    sat_clientes_cuenta as (
         select
             b.hub_cliente_id,
             current_date as fecha_carga,
@@ -17,4 +17,4 @@ with
         join {{ source("raw", "HUB_CLIENTES") }} b on a.c_name = b.nombre_cliente
     )
 select *
-from sat_clientes
+from sat_clientes_cuenta
