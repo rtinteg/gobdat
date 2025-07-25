@@ -2,12 +2,12 @@ with
     hub_pedidos as (
         select hub_pedido_id, clave_pedido, empleado
         from {{ source("raw", "HUB_PEDIDOS") }}
-        where empleado in ('Clerk#000000801', 'Clerk#000000085')
+    -- where empleado in ('Clerk#000000801', 'Clerk#000000085')
     ),
     hub_lineas_pedidos as (
         select hub_lineas_pedido_id, clave_pedido, linea_pedido
         from {{ source("raw", "HUB_LINEAS_PEDIDOS") }}
-        where clave_pedido in (4153445, 4801794)
+    -- where clave_pedido in (4153445, 4801794)
     ),
     stg_pedidos_lineas_pedidos as (
         select
@@ -39,4 +39,4 @@ select
 from hub_pedidos p1, hub_lineas_pedidos p2, stg_pedidos_lineas_pedidos p3
 where
     (p1.clave_pedido = p3.o_orderkey and p1.empleado = p3.o_clerk)
-    and (p1.clave_pedido = p3.l_orderkey and p2.linea_pedido = p3.l_linenumber)
+    and (p2.clave_pedido = p3.l_orderkey and p2.linea_pedido = p3.l_linenumber)
