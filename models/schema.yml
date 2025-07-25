@@ -50,5 +50,8 @@ sources:
       - name: HUB_PROVEEDORES
       - name: HUB_REGIONES
       - name: HUB_LINEAS_PEDIDOS
+      - name: SAT_CLIENTES_CONTACTO
+      - name: SAT_CLIENTES_CUENTA
+       
       
       
