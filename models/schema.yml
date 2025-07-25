@@ -49,7 +49,6 @@ sources:
       - name: HUB_PEDIDOS
       - name: HUB_PROVEEDORES
       - name: HUB_REGIONES
-      - name: HUB_PARTES_PROVEEDORES
       - name: HUB_LINEAS_PEDIDOS
       
       
