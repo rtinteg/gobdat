@@ -9,8 +9,9 @@ with
                 || upper(trim(nvl(c_comment, '')))
                 || upper(trim(nvl(c_mktsegment, '')))
                 || upper(trim(nvl(c_phone, '')))
-            ) as fotoreg_cdc,
-            b.origen,
+                || upper(trim(nvl(c_origen, '')))
+            ) as foto_cliente,
+            a.c_origen,
             a.c_acctbal as cuenta_balance,
             a.c_address as direccion,
             a.c_comment as comentario,
