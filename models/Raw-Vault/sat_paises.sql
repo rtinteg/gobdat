@@ -5,7 +5,7 @@ with
             current_date as fecha_carga,
             md5(
                 upper(trim(nvl(n_comment, ''))) || upper(trim(nvl(n_origen, '')))
-            ) as foto_cliente,
+            ) as foto_pais,
             a.n_origen,
             a.n_comment as comentario,
         from {{ source("stg", "STG_PAISES") }} a
