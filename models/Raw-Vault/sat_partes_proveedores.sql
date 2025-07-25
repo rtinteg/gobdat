@@ -15,7 +15,7 @@ with
             a.ps_supplycost as coste_envio,
             a.ps_comment as comentario,
         from {{ source("stg", "STG_PARTES_PROVEEDOR") }} a
-        join {{ source("stg", "STG_PARTES") }} a1 on a.ps_partkey = a1.partkey
+        join {{ source("stg", "STG_PARTES") }} a1 on a.ps_partkey = a1.p_partkey
         join {{ source("stg", "STG_PROVEEDORES") }} a2 on a.ps_suppkey = a2.s_suppkey
         join
             {{ source("raw", "HUB_PARTES") }} b
