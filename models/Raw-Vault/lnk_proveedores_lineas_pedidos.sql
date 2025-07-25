@@ -25,7 +25,7 @@ select
     p2.clave_pedido,
     p2.linea_pedido,
     current_date as fecha_carga,
-    p3.s_origen as origen_pedido,
+    p3.s_origen as origen_proveedor,
     p3.l_origen as origen_linea_pedido
 from hub_proveedores p1, hub_lineas_pedidos p2, stg_proveedores_lineas_pedidos p3
 where
