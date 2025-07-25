@@ -2,12 +2,10 @@ with
     hub_pedidos as (
         select hub_pedido_id, clave_pedido, empleado
         from {{ source("raw", "HUB_PEDIDOS") }}
-    -- where empleado in ('Clerk#000000801', 'Clerk#000000085')
     ),
     hub_lineas_pedidos as (
         select hub_lineas_pedido_id, clave_pedido, linea_pedido
         from {{ source("raw", "HUB_LINEAS_PEDIDOS") }}
-    -- where clave_pedido in (4153445, 4801794)
     ),
     stg_pedidos_lineas_pedidos as (
         select
