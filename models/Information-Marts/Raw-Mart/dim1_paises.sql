@@ -8,7 +8,7 @@ from {{ source("raw", "HUB_PAISES") }} hp, {{ source("raw", "SAT_PAISES") }} sp
 where
     hp.hub_pais_id = sp.hub_pais_id
     and sp.fecha_carga = (
-        select max()
+        select max(fecha_carga)
         from {{ source("raw", "SAT_PAISES") }} sp2
         where hub_pais_id = sp2.hub_pais_id
     )
