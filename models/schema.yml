@@ -25,6 +25,8 @@ sources:
         description: "Tabla original de PROVEEDORES"
 
   - name: stg
+    # Corresponde con la capa LANDING DEL MODELO FISICO DEL ARQUETIPO MEDALLIUM
+    # Tiene las tablas en bruto ingestadas desde el origen
     database: SDGVAULTMART
     schema: DBT_SDGVAULT
     #config:
@@ -40,6 +42,8 @@ sources:
       - name: STG_PARTES_PROVEEDOR
 
   - name: raw
+   # Corresponde con la capa BRONZE DEL MODELO FISICO DEL ARQUETIPO MEDALLIUM
+    # Tiene las tablas para estandarización, semántica, calidad técnica y alojar el modelo RAW VAULT
     database: SDGVAULTMART
     schema: DBT_SDGVAULT
     tables:
@@ -50,5 +54,23 @@ sources:
       - name: HUB_PROVEEDORES
       - name: HUB_REGIONES
       - name: HUB_LINEAS_PEDIDOS
-      - name: SAT_CLIENTES_CONTACTO
+      - name: SAT_CLIENTES_CONTACTO      
       - name: SAT_CLIENTES_CUENTA
+      - name: SAT_CLIENTES
+      - name: SAT_LINEAS_PEDIDOS
+      - name: SAT_PAISES
+      - name: SAT_PARTES
+      - name: SAT_PARTES_PROVEEDORES
+      - name: SAT_PEDIDOS
+      - name: SAT_PROVEEDORES
+      - name: SAT_REGIONES
+
+
+
+
+
+
+    - name: business
+    # Corresponde con la capa SILVER DEL MODELO FISICO DEL ARQUETIPO MEDALLIUM
+    # Tiene las tablas de negocio desde maestras (implementación MDM Gobierno), tablas con reglas de negocio. 
+  
