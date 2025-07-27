@@ -1,0 +1,53 @@
+// Mapa de Linaje de Datos - Data Vault
+digraph {
+	rankdir=LR size="11,8.5"
+	HUB_CLIENTES [label=HUB_CLIENTES fillcolor=lightblue shape=box style=filled]
+	HUB_LINEAS_PEDIDOS [label=HUB_LINEAS_PEDIDOS fillcolor=lightblue shape=box style=filled]
+	HUB_PAISES [label=HUB_PAISES fillcolor=lightblue shape=box style=filled]
+	HUB_PARTES [label=HUB_PARTES fillcolor=lightblue shape=box style=filled]
+	HUB_PEDIDOS [label=HUB_PEDIDOS fillcolor=lightblue shape=box style=filled]
+	HUB_PROVEEDORES [label=HUB_PROVEEDORES fillcolor=lightblue shape=box style=filled]
+	HUB_REGIONES [label=HUB_REGIONES fillcolor=lightblue shape=box style=filled]
+	LNK_CLIENTES_PEDIDOS [label=LNK_CLIENTES_PEDIDOS fillcolor=lightgreen shape=ellipse style=filled]
+	LNK_PAISES_CLIENTES [label=LNK_PAISES_CLIENTES fillcolor=lightgreen shape=ellipse style=filled]
+	LNK_PAISES_PROVEEDORES [label=LNK_PAISES_PROVEEDORES fillcolor=lightgreen shape=ellipse style=filled]
+	LNK_PARTES_LINEAS_PEDIDOS [label=LNK_PARTES_LINEAS_PEDIDOS fillcolor=lightgreen shape=ellipse style=filled]
+	LNK_PEDIDOS_LINEAS_PEDIDOS [label=LNK_PEDIDOS_LINEAS_PEDIDOS fillcolor=lightgreen shape=ellipse style=filled]
+	LNK_PROVEEDORES_LINEAS_PEDIDOS [label=LNK_PROVEEDORES_LINEAS_PEDIDOS fillcolor=lightgreen shape=ellipse style=filled]
+	LNK_PROVEEDORES_PARTES [label=LNK_PROVEEDORES_PARTES fillcolor=lightgreen shape=ellipse style=filled]
+	LNK_REGIONES_PAISES [label=LNK_REGIONES_PAISES fillcolor=lightgreen shape=ellipse style=filled]
+	SAT_CLIENTES_CONTACTO [label=SAT_CLIENTES_CONTACTO fillcolor=lightyellow shape=note style=filled]
+	SAT_CLIENTES_CUENTA [label=SAT_CLIENTES_CUENTA fillcolor=lightyellow shape=note style=filled]
+	SAT_LINEAS_PEDIDOS [label=SAT_LINEAS_PEDIDOS fillcolor=lightyellow shape=note style=filled]
+	SAT_PAISES [label=SAT_PAISES fillcolor=lightyellow shape=note style=filled]
+	SAT_PARTES [label=SAT_PARTES fillcolor=lightyellow shape=note style=filled]
+	SAT_PARTES_PROVEEDORES [label=SAT_PARTES_PROVEEDORES fillcolor=lightyellow shape=note style=filled]
+	SAT_PEDIDOS [label=SAT_PEDIDOS fillcolor=lightyellow shape=note style=filled]
+	SAT_PROVEEDORES [label=SAT_PROVEEDORES fillcolor=lightyellow shape=note style=filled]
+	SAT_REGIONES [label=SAT_REGIONES fillcolor=lightyellow shape=note style=filled]
+	HUB_REGIONES -> SAT_REGIONES
+	HUB_REGIONES -> LNK_REGIONES_PAISES
+	HUB_PAISES -> LNK_REGIONES_PAISES
+	HUB_PAISES -> SAT_PAISES
+	HUB_PAISES -> LNK_PAISES_PROVEEDORES
+	HUB_PAISES -> LNK_PAISES_CLIENTES
+	HUB_CLIENTES -> LNK_PAISES_CLIENTES
+	HUB_PROVEEDORES -> LNK_PAISES_PROVEEDORES
+	HUB_CLIENTES -> LNK_CLIENTES_PEDIDOS
+	HUB_PROVEEDORES -> SAT_PROVEEDORES
+	HUB_PROVEEDORES -> LNK_PROVEEDORES_PARTES
+	HUB_PARTES -> LNK_PROVEEDORES_PARTES
+	LNK_PROVEEDORES_PARTES -> LNK_PROVEEDORES_LINEAS_PEDIDOS
+	HUB_PARTES -> SAT_PARTES_PROVEEDORES
+	SAT_PROVEEDORES -> SAT_PARTES_PROVEEDORES
+	HUB_PARTES -> LNK_PARTES_LINEAS_PEDIDOS
+	HUB_PARTES -> SAT_PARTES
+	HUB_PEDIDOS -> LNK_CLIENTES_PEDIDOS
+	HUB_LINEAS_PEDIDOS -> LNK_PARTES_LINEAS_PEDIDOS
+	HUB_PEDIDOS -> LNK_PEDIDOS_LINEAS_PEDIDOS
+	HUB_LINEAS_PEDIDOS -> LNK_PEDIDOS_LINEAS_PEDIDOS
+	HUB_PEDIDOS -> SAT_PEDIDOS
+	HUB_LINEAS_PEDIDOS -> SAT_LINEAS_PEDIDOS
+	HUB_CLIENTES -> SAT_CLIENTES_CONTACTO
+	HUB_CLIENTES -> SAT_CLIENTES_CUENTA
+}
