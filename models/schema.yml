@@ -65,12 +65,7 @@ sources:
       - name: SAT_PROVEEDORES
       - name: SAT_REGIONES
 
-
-
-
-
-
-    - name: business
-    # Corresponde con la capa SILVER DEL MODELO FISICO DEL ARQUETIPO MEDALLIUM
-    # Tiene las tablas de negocio desde maestras (implementación MDM Gobierno), tablas con reglas de negocio. 
+  - name: business
+  # Corresponde con la capa SILVER DEL MODELO FISICO DEL ARQUETIPO MEDALLIUM
+  # Tiene las tablas de negocio desde maestras (implementación MDM Gobierno), tablas con reglas de negocio. 
   
