@@ -54,6 +54,14 @@ sources:
       - name: HUB_PROVEEDORES
       - name: HUB_REGIONES
       - name: HUB_LINEAS_PEDIDOS
+      - name: LNK_CLIENTES_PEDIDOS
+      - name: LNK_PAISES_CLIENTES
+      - name: LNK_PAISES_PROVEEDORES
+      - name: LNK_PARTES_LINEAS_PEDIDOS
+      - name: LNK_PEDIDOS_LINEAS_PEDIDOS
+      - name: LNK_PROVEEDORES_LINEAS_PEDIDOS
+      - name: LNK_PROVEEDORES_PARTES
+      - name: LNK_REGIONES_PAISES
       - name: SAT_CLIENTES_CONTACTO      
       - name: SAT_CLIENTES_CUENTA
       - name: SAT_CLIENTES
