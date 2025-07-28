@@ -26,7 +26,7 @@ sources:
 
   - name: stg
     # Corresponde con la capa LANDING DEL MODELO FISICO DEL ARQUETIPO MEDALLIUM
-    # Tiene las tablas en bruto ingestadas desde el origen
+    # Tiene las tablas en bruto ingestadas desde el origen TPCH_SF1 de Snowflake
     database: SDGVAULTMART
     schema: DBT_SDGVAULT
     #config:
@@ -42,7 +42,7 @@ sources:
       - name: STG_PARTES_PROVEEDOR
 
   - name: raw
-   # Corresponde con la capa BRONZE DEL MODELO FISICO DEL ARQUETIPO MEDALLIUM
+    # Corresponde con la capa BRONZE DEL MODELO FISICO DEL ARQUETIPO MEDALLIUM
     # Tiene las tablas para estandarización, semántica, calidad técnica y alojar el modelo RAW VAULT
     database: SDGVAULTMART
     schema: DBT_SDGVAULT
@@ -73,7 +73,15 @@ sources:
       - name: SAT_PROVEEDORES
       - name: SAT_REGIONES
 
-  - name: business
-  # Corresponde con la capa SILVER DEL MODELO FISICO DEL ARQUETIPO MEDALLIUM
-  # Tiene las tablas de negocio desde maestras (implementación MDM Gobierno), tablas con reglas de negocio. 
-  
+  - name: mart
+    # Corresponde con la capa SILVER DEL MODELO FISICO DEL ARQUETIPO MEDALLIUM
+    # Tiene las tablas de negocio desde maestras (implementación MDM Gobierno), tablas con reglas de negocio. 
+    database: SNOWFLAKE_SAMPLE_DATA
+    schema: TPCH_SF1
+    # config:
+    #   materialized: "table"
+    tables:
+      - name: DIM1_PAISES
+        description: "Tabla de dimensión Tipo 1 de PAISES"
+      - name: DIM2_CLIENTES
+        description: "Tabla original de LINEAS DE PEDIDOS"

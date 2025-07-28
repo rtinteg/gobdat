@@ -1,3 +1,4 @@
+-- Tabla PIT PIT_CLIENTES para la obtención eficiente del histórico persistido en las tablas satelites de Cliente 
 select
     h.hub_cliente_id,
     current_date as pit_fecha,
