@@ -3,7 +3,6 @@ select
         upper(trim(nvl(hc.nombre_cliente, ''))) || to_char(sc.fecha_carga, 'YYYY-MM-DD')
     ) as dim2_cliente_id,
     hc.nombre_cliente,
-    sc.cuenta_balance,
     sc.segmento_marketing,
     sc.c_origen as origen,
     sc.fecha_carga as fecha_inicial_validez,
