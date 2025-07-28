@@ -42,42 +42,81 @@ sources:
       - name: STG_PARTES_PROVEEDOR
 
   - name: raw
-    # Corresponde con la capa BRONZE DEL MODELO FISICO DEL ARQUETIPO MEDALLIUM
-    # Tiene las tablas para estandarización, semántica, calidad técnica y alojar el modelo RAW VAULT
+    # RAW DATA VAULT: Capa que contiene el modelo base de datos histórico y auditable, diseñado para capturar los datos tal como llegan desde las fuentes, 
+    #  sin transformaciones de negocio. Implemente estructuras  HUBs, LINKs y SATÉLITES, y permite la trazabilidad completa desde los datos brutos
+    # Para estandarización, semántica, calidad técnica, metadatado y baja lógica de complejidad de negocio
+    # Ubicación : Capa Bronze
     database: SDGVAULTMART
     schema: DBT_SDGVAULT
     tables:
       - name: HUB_CLIENTES
+        description: "Tabla HUB que almacena las claves únicas de negocio de los CLIENTES consolidando su identificación desde diferentes fuentes de datos."      
       - name: HUB_PAISES
+        description: "Tabla HUB que almacena las claves únicas de negocio de los PAISES consolidando su identificación desde diferentes fuentes de datos."
       - name: HUB_PARTES
+        description: "Tabla HUB que almacena las claves únicas de negocio de los PARTES consolidando su identificación desde diferentes fuentes de datos."
       - name: HUB_PEDIDOS
+        description: "Tabla HUB que almacena las claves únicas de negocio de los PEDIDOS consolidando su identificación desde diferentes fuentes de datos."
       - name: HUB_PROVEEDORES
+        description: "Tabla HUB que almacena las claves únicas de negocio de los PROVEEDORES consolidando su identificación desde diferentes fuentes de datos."
       - name: HUB_REGIONES
+        description: "Tabla HUB que almacena las claves únicas de negocio de los REGIONES (Continentes) consolidando su identificación desde diferentes fuentes de datos."
       - name: HUB_LINEAS_PEDIDOS
+        description: "Tabla HUB que almacena las claves únicas de negocio de las LINEAS DE PEDIDO consolidando su identificación desde diferentes fuentes de datos."
       - name: LNK_CLIENTES_PEDIDOS
+        description: "Tabla LINK que representa la relación entre CLIENTES Y PEDIDOS, consolidando vínculos transaccionales entre ambas entidades"
       - name: LNK_PAISES_CLIENTES
+        description: "Tabla LINK que representa la relación entre PAISES Y CLIENTES, consolidando vínculos transaccionales entre ambas entidades"
       - name: LNK_PAISES_PROVEEDORES
+        description: "Tabla LINK que representa la relación entre PAÍSES Y PROVEEDORES, consolidando vínculos transaccionales entre ambas entidades"
       - name: LNK_PARTES_LINEAS_PEDIDOS
+        description: "Tabla LINK que representa la relación entre PARTES Y LÍNEAS DE PEDIDOS, consolidando vínculos transaccionales entre ambas entidades"
       - name: LNK_PEDIDOS_LINEAS_PEDIDOS
+        description: "Tabla LINK que representa la relación entre PEDIDOS Y LÍNEAS DE PEDIDOS, consolidando vínculos transaccionales entre ambas entidades"
       - name: LNK_PROVEEDORES_LINEAS_PEDIDOS
+        description: "Tabla LINK que representa la relación entre PROVEEDORES Y LÍNEAS DE PEDIDOS, consolidando vínculos transaccionales entre ambas entidades"
       - name: LNK_PROVEEDORES_PARTES
+        description: "Tabla LINK que representa la relación entre PROVEEDORES Y PARTES, consolidando vínculos transaccionales entre ambas entidades"
       - name: LNK_REGIONES_PAISES
+        description: "Tabla LINK que representa la relación entre REGIONES Y PAISES, consolidando vínculos transaccionales entre ambas entidades"
       - name: SAT_CLIENTES_CONTACTO      
+        description: "Tabla SATÉLITE que almacena los datos de CONTACTO DE CLIENTES, permitiendo la trazabilidad de sus cambios históricos."
       - name: SAT_CLIENTES_CUENTA
-      - name: SAT_CLIENTES
+        description: "Tabla SATÉLITE que almacena los datos de CUENTA DE CLIENTES, permitiendo la trazabilidad de sus cambios históricos."
       - name: SAT_LINEAS_PEDIDOS
+        description: "Tabla SATÉLITE que almacena los datos de LINEAS DE PEDIDOS, permitiendo la trazabilidad de sus cambios históricos."
       - name: SAT_PAISES
+        description: "Tabla SATÉLITE que almacena los datos de PAISES, permitiendo la trazabilidad de sus cambios históricos."
       - name: SAT_PARTES
+        description: "Tabla SATÉLITE que almacena los datos de PARTES, permitiendo la trazabilidad de sus cambios históricos."
       - name: SAT_PARTES_PROVEEDORES
+        description: "Tabla SATÉLITE que almacena los datos de PARTES DE PROVEEDORES, permitiendo la trazabilidad de sus cambios históricos."
       - name: SAT_PEDIDOS
+        description: "Tabla SATÉLITE que almacena los datos de PEDIDOS, permitiendo la trazabilidad de sus cambios históricos."
       - name: SAT_PROVEEDORES
+        description: "Tabla SATÉLITE que almacena los datos de PROVEEDORES, permitiendo la trazabilidad de sus cambios históricos."
       - name: SAT_REGIONES
+        description: "Tabla SATÉLITE que almacena los datos de REGIONES (continentes), permitiendo la trazabilidad de sus cambios históricos."
+
+  - name: business
+    # BUSINESS DATA VAULT: Capa que extiende el modelo Raw Data Vault con reglas de negocio, integraciones semánticas y lógica derivada que no altera los datos fuente. 
+    # Incluye objetos como BRIDGE, PIT y SATs derivados con lógica de negocio aplicada (por ejemplo, consolidaciones, deduplicaciones, enriquecimientos).
+    # Ubicación: También en Bronze (en algunos casos considerada "Silver lógica").
+    database: SDGVAULTMART
+    schema: DBT_SDGVAULT
+    tables:
+      - name: PIT_CLIENTES
+        description: "Tabla PIT para recuperar el estado histórico de los atributos de CLIENTES en una fecha específica a partir de sus satélites."
+      - name: BRIDGE_PEDIDOS
+        description: "Tabla BRIDGE conteniendo la relación entre PEDIDOS Y CLIENTES en forma jerárquica para facilitar análisis de históricos completos"
+
 
   - name: mart
-    # Corresponde con la capa SILVER DEL MODELO FISICO DEL ARQUETIPO MEDALLIUM
-    # Tiene las tablas de negocio desde maestras (implementación MDM Gobierno), tablas con reglas de negocio. 
-    database: SNOWFLAKE_SAMPLE_DATA
-    schema: TPCH_SF1
+    # RAW DATA MART: Capa dimensional derivada directamente del Raw o Business Data Vault sin aplicar reglas complejas de negocio. 
+    # Estructura los datos en modelos tipo estrella (Dimensiones y Hechos) listos para análisis de negocio, pero sin romper el linaje de la información técnica  
+    # Ubicación: Silver
+    database: SDGVAULTMART
+    schema: DBT_SDGVAULT
     # config:
     #   materialized: "table"
     tables:
