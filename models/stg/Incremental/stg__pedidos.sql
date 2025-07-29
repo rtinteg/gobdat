@@ -4,7 +4,7 @@
         unique_key="o_orderkey",
         schema="DBT_SDGVAULT",
         database="SDGVAULTMART",
-        alias="STG_PEDIDOS"
+        alias="STG_PEDIDOS",
     )
 }}
 with
@@ -12,7 +12,7 @@ with
     filtrados as (
         select *
         from csv_nuevos
-        where o_orderkey not in (select o_orderkey from {{ ref("stg_pedidos") }})
+        where o_orderkey not in (select o_orderkey from {{ ref("STG_PEDIDOS") }})
     )
 select *
 from filtrados
