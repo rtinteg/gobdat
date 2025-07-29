@@ -23,12 +23,10 @@ with
     ),
     filtrados as (
 
-        {% if is_incremental() %}
-            select *
-            from csv_nuevos
-            where c_custkey not in (select c_custkey from {{ this }})
-        {% else %}select * from csv_nuevos
-        {% endif %}
+        select *
+        from csv_nuevos
+        where c_custkey not in (select c_custkey from {{ ref("stg_clientes") }})
+
     )
 select *
 from filtrados
