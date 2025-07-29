@@ -8,4 +8,4 @@ with
         from {{ source("stg", "STG_PROVEEDORES") }}
     )
 select *
-from hub_proveedores
+from hub_proveedores 
