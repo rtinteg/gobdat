@@ -1,7 +1,7 @@
 {{
     config(
         materialized="incremental",
-        unique_key="c_custkey",
+        unique_key="n_nationkey",
         schema="DBT_SDGVAULT",
         database="SDGVAULTMART",
         alias="stg_paises",
