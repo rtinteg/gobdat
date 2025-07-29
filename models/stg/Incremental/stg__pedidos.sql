@@ -14,7 +14,7 @@ with
         select n.*
         from csv_nuevos n
         left join {{ ref("stg_pedidos") }} e on n.o_orderkey = e.o_orderkey
-        where e.o_orderkey is null
+        --where e.o_orderkey is null
        -- where o_orderkey not in (select o_orderkey from {{ ref("stg_pedidos") }})
     )
 select *
