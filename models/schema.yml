@@ -39,7 +39,13 @@ sources:
       - name: STG_REGIONES
       - name: STG_LINEAS_PEDIDO
       - name: STG_PEDIDOS
-      - name: STG_PARTES_PROVEEDOR
+      - name: STG_PARTES_PROVEEDOR      
+      - name: CLIENTES_ELT
+        description: "Tabla de carga de CLIENTES via CSV de manera incremental"     
+      - name: PAISES_ELT
+        description: "Tabla de carga de PAISES via CSV de manera incremental"     
+      - name: PEDIDOS_ELT
+        description: "Tabla de carga de PAISES via CSV de manera incremental"    
 
   - name: raw
     # RAW DATA VAULT: Capa que contiene el modelo base de datos histórico y auditable, diseñado para capturar los datos tal como llegan desde las fuentes, 
