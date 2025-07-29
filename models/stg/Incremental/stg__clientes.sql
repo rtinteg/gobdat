@@ -1,3 +1,12 @@
+{{
+    config(
+        materialized="incremental",
+        unique_key="c_custkey",
+        schema="DBT_SDGVAULT",
+        database="SDGVAULTMART",
+        alias="stgc_clientes",
+    )
+}}
 with
     csv_nuevos as (
         select
@@ -14,32 +23,13 @@ with
         from {{ source("stg", "CLIENTES_ELT") }}
     ),
     filtrados as (
-        select *
-        from csv_nuevos
-        where
-            c_custkey not in (select c_custkey from {{ source("stg", "STG_CLIENTES") }})
+
+        {% if is_incremental() %}
+            select *
+            from csv_nuevos
+            where c_custkey not in (select c_custkey from {{ this }})
+        {% else %}select * from csv_nuevos
+        {% endif %}
     )
-    insert into {{ source("stg", "STG_CLIENTES") }} (
-        c_acctbal,
-        c_address,
-        c_comment,
-        c_custkey,
-        c_mktsegment,
-        c_name,
-        c_nationkey,
-        c_phone,
-        c_origen,
-        fecha_carga
-    )
-select
-    c_acctbal,
-    c_address,
-    c_comment,
-    c_custkey,
-    c_mktsegment,
-    c_name,
-    c_nationkey,
-    c_phone,
-    c_origen,
-    fecha_carga
+select *
 from filtrados
