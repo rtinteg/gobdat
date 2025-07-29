@@ -47,7 +47,7 @@ sources:
     # Para estandarización, semántica, calidad técnica, metadatado y baja lógica de complejidad de negocio
     # Ubicación : Capa Bronze
     database: SDGVAULTMART
-    schema: DBT_SDGVAULT
+    schema: DBT_BRONZE
     tables:
       - name: HUB_CLIENTES
         description: "Tabla HUB que almacena las claves únicas de negocio de los CLIENTES consolidando su identificación desde diferentes fuentes de datos."      
@@ -103,7 +103,7 @@ sources:
     # Incluye objetos como BRIDGE, PIT y SATs derivados con lógica de negocio aplicada (por ejemplo, consolidaciones, deduplicaciones, enriquecimientos).
     # Ubicación: También en Bronze (en algunos casos considerada "Silver lógica").
     database: SDGVAULTMART
-    schema: DBT_SDGVAULT
+    schema: DBT_BRONZE
     tables:
       - name: PIT_CLIENTES
         description: "Tabla PIT para recuperar el estado histórico de los atributos de CLIENTES en una fecha específica a partir de sus satélites."
@@ -116,7 +116,7 @@ sources:
     # Estructura los datos en modelos tipo estrella (Dimensiones y Hechos) listos para análisis de negocio, pero sin romper el linaje de la información técnica  
     # Ubicación: Silver
     database: SDGVAULTMART
-    schema: DBT_SDGVAULT
+    schema: DBT_SILVER
     tables:
       - name: DIM1_PAISES
         description: "Tabla de dimensión Tipo 1 de PAISES"
@@ -132,7 +132,7 @@ sources:
     # Pueden usar tablas de la capa Business Data Vault. Aquí se aplican reglas de negocio completas, jerarquías, métricas calculadas, etc. 
     # Ubicación: Gold
     database: SDGVAULTMART
-    schema: DBT_SDGVAULT
+    schema: DBT_GOLD
     tables:
       - name: DIM1_CLIENTES
         description: "Tabla de dimensión Tipo 1 de CLIENTES"
