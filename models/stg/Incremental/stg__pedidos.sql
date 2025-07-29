@@ -4,7 +4,7 @@
         unique_key="o_orderkey",
         schema="DBT_SDGVAULT",
         database="SDGVAULTMART",
-        alias="stg_pedidos",
+        alias="STG_PEDIDOS"
     )
 }}
 with
