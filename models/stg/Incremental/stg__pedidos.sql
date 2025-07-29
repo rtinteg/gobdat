@@ -11,7 +11,7 @@
 with
     csv_nuevos as (select * from {{ source("stg", "PEDIDOS_ELT") }}),
 
-    {% if not is_incremental() %}
+    {% if is_incremental() %}
         filtrados as (
             select n.*
             from csv_nuevos n
