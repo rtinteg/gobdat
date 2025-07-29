@@ -1,7 +1,7 @@
 {{
     config(
         materialized="incremental",
-        unique_key="o_orderkey",
+        unique_key=["o_orderkey", "o_custkey"],
         schema="DBT_SDGVAULT",
         database="SDGVAULTMART",
         alias="stg_pedidos",
