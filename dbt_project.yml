@@ -35,9 +35,10 @@ models:
     Business_Vault:
       database: SDGVAULTMART
       schema: BRONZE
-    Mart_Vault/Raw_Mart:
-      database: SDGVAULTMART
-      schema: SILVER
-    Mart_Vault/Information_Mart:
-      database: SDGVAULTMART
-      schema: GOLD
+    Mart_Vault:
+      Raw_Mart:
+        database: SDGVAULTMART
+        schema: SILVER
+      Information_Mart:
+        database: SDGVAULTMART
+        schema: GOLD
