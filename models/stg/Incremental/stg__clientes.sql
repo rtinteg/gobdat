@@ -4,7 +4,7 @@
         unique_key="c_custkey",
         schema="DBT_SDGVAULT",
         database="SDGVAULTMART",
-        alias="stgc_clientes",
+        alias="stg_clientes",
     )
 }}
 with
