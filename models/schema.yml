@@ -112,15 +112,30 @@ sources:
 
 
   - name: mart
-    # RAW DATA MART: Capa dimensional derivada directamente del Raw o Business Data Vault sin aplicar reglas complejas de negocio. 
+    # RAW DATA MART: Capa dimensional derivada directamente del Raw Data Vault sin aplicar reglas complejas de negocio. 
     # Estructura los datos en modelos tipo estrella (Dimensiones y Hechos) listos para análisis de negocio, pero sin romper el linaje de la información técnica  
     # Ubicación: Silver
     database: SDGVAULTMART
     schema: DBT_SDGVAULT
-    # config:
-    #   materialized: "table"
     tables:
       - name: DIM1_PAISES
         description: "Tabla de dimensión Tipo 1 de PAISES"
+      - name: DIM1_CLIENTES
+        description: "Tabla de dimensión Tipo 1 de CLIENTES"
       - name: DIM2_CLIENTES
-        description: "Tabla original de LINEAS DE PEDIDOS"
+        description: "Tabla de dimensión Tipo 2 de CLIENTES"
+      - name: FACT_CLIENTES_CUENTAS
+        description: "Tabla de Hechoi Tipo 2 de CLIENTES"
+
+  - name: infomart
+    # INFORMATION MART:Capa final orientada al consumidor, donde los datos están enriquecidos, gobernados y estructurados para casos de uso específicos. 
+    # Pueden usar tablas de la capa Business Data Vault. Aquí se aplican reglas de negocio completas, jerarquías, métricas calculadas, etc. 
+    # Ubicación: Gold
+    database: SDGVAULTMART
+    schema: DBT_SDGVAULT
+    tables:
+      - name: DIM1_CLIENTES
+        description: "Tabla de dimensión Tipo 1 de CLIENTES"
+      - name: FACT_CLIENTES_PEDIDOS
+        description: "Tabla de hechos de CLIENTES PEDIDOS con métricas calculadas"
+
