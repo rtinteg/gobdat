@@ -1,6 +1,5 @@
 with
     csv_nuevos as (
-
         select
             c_acctbal,
             c_address,
@@ -17,13 +16,10 @@ with
     filtrados as (
         select *
         from csv_nuevos
-        where c_custkey not in (select c_custkey from {{ source("stg", "STG_CLIENTES") }})
+        where
+            c_custkey not in (select c_custkey from {{ source("stg", "STG_CLIENTES") }})
     )
--- select * from  filtrados
-
-    -- Esta tabla no se guarda como `load_clientes_from_csv`, sino que hace INSERT
-    -- INTO stg_clientes
-    insert into {{ ref("stg_clientes") }} (
+    insert into {{ source("stg", "STG_CLIENTES") }} (
         c_acctbal,
         c_address,
         c_comment,
