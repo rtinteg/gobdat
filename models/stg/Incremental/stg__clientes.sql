@@ -18,8 +18,7 @@ with
             c_name,
             c_nationkey,
             c_phone,
-            c_origen,
-            current_timestamp() as fecha_carga
+            c_origen
         from {{ source("stg", "CLIENTES_ELT") }}
     ),
     filtrados as (
