@@ -29,7 +29,7 @@ models:
   SDG_Vault_demo:
     materialized: table
     snowflake_warehouse: SDGVAULTANALYTICS
-    Raw-Vault:
+    Raw_Vault:
       database: SDGVAULTMART
       schema: BRONZE
     Business_Vault:
