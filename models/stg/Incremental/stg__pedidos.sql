@@ -4,9 +4,10 @@
         unique_key=["o_orderkey", "o_custkey"],
         schema="DBT_SDGVAULT",
         database="SDGVAULTMART",
-        alias="stg_pedidos",
+        identifier="stg_pedidos",
     )
 }}
+
 with
     csv_nuevos as (
         select
@@ -22,22 +23,19 @@ with
             c.o_origen
         from {{ source("stg", "PEDIDOS_ELT") }} c
     ),
-    filtrados as (
-        select
-            n.o_orderkey,
-            n.o_custkey,
-            n.o_orderstatus,
-            n.o_totalprice,
-            n.o_orderdate,
-            n.o_orderpriority,
-            n.o_clerk,
-            n.o_shippriority,
-            n.o_comment,
-            n.o_origen
-        from csv_nuevos n
-        where
-            (n.o_orderkey, n.o_custkey)
-            not in (select o_orderkey, o_custkey from {{ ref("stg_pedidos") }})
-    )
+
+    {% if is_incremental() %}
+        filtrados as (
+            select n.*
+            from csv_nuevos n
+            left join
+                {{ this }} e
+                on n.o_orderkey = e.o_orderkey
+                and n.o_custkey = e.o_custkey
+            where e.o_orderkey is null and e.o_custkey is null
+        )
+    {% else %} filtrados as (select * from csv_nuevos)
+    {% endif %}
+
 select *
 from filtrados
