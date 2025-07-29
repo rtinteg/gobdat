@@ -10,7 +10,7 @@
 with
     csv_nuevos as (select * from {{ source("stg", "PEDIDOS_ELT") }}),
     filtrados as (
-        select *
+        select n.*
         from csv_nuevos n
         left join {{ ref("stg_pedidos") }} e
         on n.o_orderkey = e.o_orderkey
