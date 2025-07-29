@@ -1,5 +1,3 @@
-{{ config(materialized="incremental", alias="stg_clientes_csv") }}
-
 with
     csv_nuevos as (
 
@@ -15,16 +13,13 @@ with
             c_origen,
             current_timestamp() as fecha_carga
         from {{ source("stg", "CLIENTES_ELT") }}
-
     ),
-
     filtrados as (
-
         select *
         from csv_nuevos
-        where c_custkey not in (select c_custkey from {{ ref("stg_clientes") }})
-
+        where c_custkey not in (select c_custkey from {{ source("stg", "STG_CLIENTES") }})
     )
+-- select * from  filtrados
 
     -- Esta tabla no se guarda como `load_clientes_from_csv`, sino que hace INSERT
     -- INTO stg_clientes
