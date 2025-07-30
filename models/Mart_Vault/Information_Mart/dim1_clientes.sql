@@ -1,21 +1,7 @@
-{{
-    config(
-        materialized="incremental",
-        unique_key="dim1_cliente_id",
-        incremental_strategy="merge",
-        merge_update_columns=[
-            "nombre_cliente",
-            "segmento_marketing",
-            "fecha",
-            "origen",
-        ],
-    )
-}}
-
 with
     dim1_clientes as (
         select
-            hc.hub_cliente_id as dim1_cliente_id,
+            hc.hub_cliente_id as dim1_clientes,
             hc.nombre_cliente,
             sc.segmento_marketing,
             sc.fecha_carga as fecha,
@@ -28,13 +14,11 @@ with
             {{ source("raw", "SAT_CLIENTES_CUENTA") }} sc
             on sc.hub_cliente_id = pit.hub_cliente_id
             and sc.fecha_carga = pit.fecha_cliente_cuenta
-        where
-            sc.fecha_carga = (
+            and sc.fecha_carga = (
                 select max(sc2.fecha_carga)
                 from {{ source("raw", "SAT_CLIENTES_CUENTA") }} sc2
-                where sc2.hub_cliente_id = sc.hub_cliente_id
+                where sc.hub_cliente_id = sc2.hub_cliente_id
             )
     )
-
 select *
 from dim1_clientes
