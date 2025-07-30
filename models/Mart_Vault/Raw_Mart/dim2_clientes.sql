@@ -1,10 +1,9 @@
+{{ config(materialized="incremental", unique_key="dim2_cliente_id") }}
+
 with
-    dim2_clientes as (
+    sat_clientes_cuenta as (
         select
-            md5(
-                upper(trim(nvl(hc.nombre_cliente, '')))
-                || to_char(sc.fecha_carga, 'YYYY-MM-DD')
-            ) as dim2_cliente_id,
+            sc.hub_cliente_id,
             hc.nombre_cliente,
             sc.segmento_marketing,
             sc.c_origen as origen,
@@ -12,10 +11,29 @@ with
             lead(sc.fecha_carga) over (
                 partition by sc.hub_cliente_id order by sc.fecha_carga
             ) as fecha_final_validez
-        from
-            {{ source("raw", "HUB_CLIENTES") }} hc,
-            {{ source("raw", "SAT_CLIENTES_CUENTA") }} sc
-        where hc.hub_cliente_id = sc.hub_cliente_id
+        from {{ source("raw", "SAT_CLIENTES_CUENTA") }} sc
+        join
+            {{ source("raw", "HUB_CLIENTES") }} hc
+            on hc.hub_cliente_id = sc.hub_cliente_id
+    ),
+    con_ids as (
+        select
+            md5(
+                upper(trim(nvl(nombre_cliente, '')))
+                || to_char(fecha_inicial_validez, 'YYYY-MM-DD')
+            ) as dim2_cliente_id,
+            nombre_cliente,
+            segmento_marketing,
+            origen,
+            fecha_inicial_validez,
+            fecha_final_validez
+        from sat_clientes_cuenta
+    ),
+    filtrado as (
+        select c.*
+        from con_ids c
+        left join {{ this }} t on c.dim2_cliente_id = t.dim2_cliente_id
+        where t.dim2_cliente_id is null
     )
 select *
-from dim2_clientes
+from filtrado
