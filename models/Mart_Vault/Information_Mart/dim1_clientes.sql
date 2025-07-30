@@ -1,9 +1,21 @@
-{{ config(materialized="incremental", unique_key="hub_cliente_id") }}
+{{
+    config(
+        materialized="incremental",
+        unique_key="dim1_cliente_id",
+        incremental_strategy="merge",
+        merge_update_columns=[
+            "nombre_cliente",
+            "segmento_marketing",
+            "fecha",
+            "origen",
+        ],
+    )
+}}
 
 with
     dim1_clientes as (
         select
-            hc.hub_cliente_id,
+            hc.hub_cliente_id as dim1_cliente_id,
             hc.nombre_cliente,
             sc.segmento_marketing,
             sc.fecha_carga as fecha,
@@ -23,10 +35,6 @@ with
                 where sc2.hub_cliente_id = sc.hub_cliente_id
             )
     )
+
 select *
 from dim1_clientes
-{% if is_incremental() %}
-    where
-        hub_cliente_id
-        in (select hub_cliente_id from {{ source("infomart", "DIM1_CLIENTES") }})
-{% endif %}
