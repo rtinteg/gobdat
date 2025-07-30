@@ -1,3 +1,5 @@
+{{ config(materialized="incremental", unique_key="hub_cliente_id") }}
+
 with
     dim1_clientes as (
         select
@@ -14,11 +16,15 @@ with
             {{ source("raw", "SAT_CLIENTES_CUENTA") }} sc
             on sc.hub_cliente_id = pit.hub_cliente_id
             and sc.fecha_carga = pit.fecha_cliente_cuenta
-            and sc.fecha_carga = (
+        where
+            sc.fecha_carga = (
                 select max(sc2.fecha_carga)
                 from {{ source("raw", "SAT_CLIENTES_CUENTA") }} sc2
-                where sc.hub_cliente_id = sc2.hub_cliente_id
+                where sc2.hub_cliente_id = sc.hub_cliente_id
             )
     )
 select *
 from dim1_clientes
+{% if is_incremental() %}
+    where hub_cliente_id in (select hub_cliente_id from {{ this }})
+{% endif %}
