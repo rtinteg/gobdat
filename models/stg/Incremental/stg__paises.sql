@@ -3,7 +3,7 @@
         materialized="incremental",
         unique_key="n_nationkey",
         database="SDGVAULTMART",
-        alias="stg_paises",
+        identifier="stg_paises2",
     )
 }}
 with
