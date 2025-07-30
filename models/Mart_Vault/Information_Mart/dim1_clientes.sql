@@ -26,5 +26,7 @@ with
 select *
 from dim1_clientes
 {% if is_incremental() %}
-    where hub_cliente_id in (select hub_cliente_id from {{ this }})
+    where
+        hub_cliente_id
+        in (select hub_cliente_id from {{ source("infomart", "DIM1_CLIENTES") }})
 {% endif %}
