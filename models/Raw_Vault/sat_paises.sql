@@ -10,7 +10,7 @@ with
                     upper(trim(nvl(n_comment, ''))) || upper(trim(nvl(n_origen, '')))
                 ) as foto_pais,
                 n_origen,
-                n_comment,
+                n_comment as comentario,
             from {{ source("stg", "STG_PAISES") }} a
             join {{ source("raw", "HUB_PAISES") }} b on a.n_name = b.nombre_pais 
             where hub_pais_id not in (select hub_pais_id from {{ this }})
