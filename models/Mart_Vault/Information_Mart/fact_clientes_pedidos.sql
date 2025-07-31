@@ -1,3 +1,10 @@
+{{
+    config(
+        materialized="incremental",
+        unique_key=["hub_cliente_id", "hub_pais_id", "fecha_carga"],
+    )
+}}
+
 with
     base as (
         select
@@ -9,6 +16,11 @@ with
         from {{ source("business", "BRIDGE_PEDIDOS") }} bp
         join
             {{ source("raw", "SAT_PEDIDOS") }} sp on bp.hub_pedido_id = sp.hub_pedido_id
+
+        {% if is_incremental() %}
+            -- Solo considerar nuevas fechas de carga en modo incremental
+            where bp.fecha_carga > (select max(fecha_carga) from {{ this }})
+        {% endif %}
     ),
     agregado as (
         select
