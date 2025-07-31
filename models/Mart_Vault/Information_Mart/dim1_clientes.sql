@@ -1,7 +1,20 @@
+{{
+    config(
+        materialized="incremental",
+        unique_key="dim1_cliente_id",
+        merge_update_columns=[
+            "nombre_cliente",
+            "segmento_marketing",
+            "fecha",
+            "origen",
+        ],
+    )
+}}
+
 with
     dim1_clientes as (
         select
-            hc.hub_cliente_id as dim1_clientes,
+            hc.hub_cliente_id as dim1_cliente_id,
             hc.nombre_cliente,
             sc.segmento_marketing,
             sc.fecha_carga as fecha,
@@ -19,6 +32,18 @@ with
                 from {{ source("raw", "SAT_CLIENTES_CUENTA") }} sc2
                 where sc.hub_cliente_id = sc2.hub_cliente_id
             )
+    ),
+    filtrado as (
+        select s.*
+        from dim1_clientes s
+        left join
+            {{ this }} t
+            on s.dim1_cliente_id = t.dim1_cliente_id
+            and s.nombre_cliente = t.nombre_cliente
+            and s.segmento_marketing = t.segmento_marketing
+            and s.fecha = t.fecha
+            and s.origen = t.origen
+        where t.dim1_cliente_id is null
     )
 select *
-from dim1_clientes
+from filtrado
