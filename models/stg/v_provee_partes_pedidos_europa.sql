@@ -8,7 +8,7 @@ with
         join {{ source("stg", "STG_PARTES") }} c on b.ps_partkey = c.p_partkey
         join
             {{ ref("v_stg_regiones_paises") }} d
-            on a.s_nationkey = d.n_regionkey
+            on a.s_nationkey = d.n_nationkey
             and d.n_nationkey in (6, 19, 22, 23, 99, 7)
     )
 select *
