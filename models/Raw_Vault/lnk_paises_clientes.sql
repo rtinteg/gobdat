@@ -25,7 +25,7 @@ with
             p2.nombre_cliente,
             current_date as fecha_carga,
             p3.n_origen as origen_pais,
-            p3.c_origen as origen_proveedor
+            p3.c_origen as origen_cliente
         from hub_paises p1, hub_clientes p2, stg_paises_clientes p3
         where p1.nombre_pais = p3.n_name and p2.nombre_cliente = p3.c_name
     )
