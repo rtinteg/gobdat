@@ -103,6 +103,8 @@ sources:
         description: "Tabla SATÉLITE que almacena los datos de PROVEEDORES, permitiendo la trazabilidad de sus cambios históricos."
       - name: SAT_REGIONES
         description: "Tabla SATÉLITE que almacena los datos de REGIONES (continentes), permitiendo la trazabilidad de sus cambios históricos."
+      - name: BRIDGE_PEDIDOS
+        description: "Tabla BRIGDE que facilita la obtención de los datos de pedidos a partir de todos los ejes de relación (PEDIDOS, CLIENTES Y PAISES)"
 
   - name: business
     # BUSINESS DATA VAULT: Capa que extiende el modelo Raw Data Vault con reglas de negocio, integraciones semánticas y lógica derivada que no altera los datos fuente. 
