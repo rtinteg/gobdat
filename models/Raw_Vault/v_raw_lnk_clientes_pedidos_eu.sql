@@ -1,6 +1,6 @@
 {{ config(materialized="view") }}
 
-select *
+select lcp.*
 from {{ source("raw", "LNK_CLIENTES_PEDIDOS") }} lcp
 join
     {{ source("raw", "LNK_PAISES_CLIENTES") }} lpc
