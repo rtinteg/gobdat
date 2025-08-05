@@ -126,8 +126,6 @@ sources:
     tables:
       - name: DIM1_PAISES
         description: "Tabla de dimensión Tipo 1 de PAISES"
-      - name: DIM1_CLIENTES
-        description: "Tabla de dimensión Tipo 1 de CLIENTES"
       - name: DIM2_CLIENTES
         description: "Tabla de dimensión Tipo 2 de CLIENTES"
       - name: FACT_CLIENTES_CUENTAS
