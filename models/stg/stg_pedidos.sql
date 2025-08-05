@@ -17,7 +17,7 @@ with
                 o_shippriority,
                 o_comment,
                 'CSV' as o_origen,
-                current_timestamp as load_date
+                current_date as load_date
             from {{ source("stg", "PEDIDOS_ELT") }}
 
         {% else %}
@@ -34,7 +34,7 @@ with
                 o_shippriority,
                 o_comment,
                 'Snowflake' as o_origen,
-                current_timestamp as load_date
+                current_date - 15 as load_date
             from {{ source("src", "ORDERS") }}
 
         {% endif %}
