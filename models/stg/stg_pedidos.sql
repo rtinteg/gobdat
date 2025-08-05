@@ -1,8 +1,11 @@
-{{ config(materialized="incremental", unique_key="o_orderkey") }}
+{{ config(materialized="incremental", unique_key=["o_orderkey", "load_date"]) }}
 
 with
     source_data as (
+
         {% if is_incremental() %}
+
+            -- Incremental: carga desde CSV
             select
                 o_orderkey,
                 o_custkey,
@@ -13,10 +16,13 @@ with
                 o_clerk,
                 o_shippriority,
                 o_comment,
-                o_origen
+                'CSV' as o_origen,
+                current_timestamp as load_date
             from {{ source("stg", "PEDIDOS_ELT") }}
-            where o_orderkey not in (select o_orderkey from {{ this }})
+
         {% else %}
+
+            -- Primera carga: desde tabla fuente sin campos extra
             select
                 o_orderkey,
                 o_custkey,
@@ -27,9 +33,13 @@ with
                 o_clerk,
                 o_shippriority,
                 o_comment,
-                'Snowflake' as o_origen
+                'Snowflake' as o_origen,
+                current_timestamp as load_date
             from {{ source("src", "ORDERS") }}
+
         {% endif %}
+
     )
+
 select *
 from source_data
