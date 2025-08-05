@@ -17,7 +17,7 @@ with
                 c_nationkey,
                 c_phone,
                 'CSV' as c_origen,
-                current_timestamp as load_date
+                current_date as load_date
             from {{ source("stg", "CLIENTES_ELT") }}
 
         {% else %}
@@ -33,7 +33,7 @@ with
                 c_nationkey,
                 c_phone,
                 'Snowflake' as c_origen,
-                current_timestamp as load_date
+                current_date - 15 as load_date
             from {{ source("src", "CUSTOMER") }}
 
         {% endif %}
