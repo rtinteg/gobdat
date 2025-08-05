@@ -7,8 +7,8 @@ with
             b.fecha_carga,
             md5(
                 upper(trim(coalesce(a.o_orderstatus, '')))
-                || upper(trim(coalesce(a.o_totalprice, '')))
-                || upper(trim(coalesce(a.o_orderdate, '')))
+                || upper(trim(coalesce(cast(a.o_totalprice as string), '')))
+                || upper(trim(coalesce(cast(a.o_orderdate as string), '')))
                 || upper(trim(coalesce(a.o_orderpriority, '')))
                 || upper(trim(coalesce(a.o_shippriority, '')))
                 || upper(trim(coalesce(a.o_comment, '')))
@@ -36,8 +36,8 @@ with
                         s.hub_pedido_id = b.hub_pedido_id
                         and s.foto_pedido = md5(
                             upper(trim(coalesce(a.o_orderstatus, '')))
-                            || upper(trim(coalesce(a.o_totalprice, '')))
-                            || upper(trim(coalesce(a.o_orderdate, '')))
+                            || upper(trim(coalesce(cast(a.o_totalprice as string), '')))
+                            || upper(trim(coalesce(cast(a.o_orderdate as string), '')))
                             || upper(trim(coalesce(a.o_orderpriority, '')))
                             || upper(trim(coalesce(a.o_shippriority, '')))
                             || upper(trim(coalesce(a.o_comment, '')))
@@ -45,6 +45,5 @@ with
                 )
         {% endif %}
     )
-
 select *
 from sat_pedidos
