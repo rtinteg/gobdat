@@ -26,7 +26,10 @@ with
     pit_clientes as (
         select
             h.hub_cliente_id,
-            current_date as pit_fecha,
+            greatest(
+                coalesce(fecha_cliente_contacto, date '1900-01-01'),
+                coalesce(fecha_cliente_cuenta, date '1900-01-01')
+            ) as pit_fecha,
             s1.fecha_cliente_contacto,
             s2.fecha_cliente_cuenta
         from {{ source("raw", "HUB_CLIENTES") }} h
