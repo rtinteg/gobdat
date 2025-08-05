@@ -1,2 +1,5 @@
 C_ACCTBAL,C_ADDRESS,C_COMMENT,C_CUSTKEY,C_MKTSEGMENT,C_NAME,C_NATIONKEY,C_PHONE,C_ORIGEN
-100,"","",999990,HOUSEHOLD,"Cliente Roberto",99,99-999-99-9999,"elt-csv"
+1000,"","registro modificado en agosto",999990,BUILDING,"Cliente Roberto",99,99-999-99-9999,"elt-csv"
+5700,"calle nueva","",999991,AUTOMOBILE,"Cliente Gianni",100,99-999-99-9999,"elt-csv"
+9000,"calle España","otro cliente de España",999992,MACHINERY,"Cliente Laura",99,99-999-99-9999,"elt-csv"
+-440,"dirección ficticia 11","",11,FURNITURE,"Customer#000000011",23,33-464-151-3439,"elt-csv"
