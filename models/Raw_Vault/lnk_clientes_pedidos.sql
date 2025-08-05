@@ -5,7 +5,7 @@ with
         select hub_cliente_id, nombre_cliente, from {{ source("raw", "HUB_CLIENTES") }}
     ),
     hub_pedidos as (
-        select hub_pedido_id, clave_pedido, empleado, fecha_carga
+        select hub_pedido_id, clave_pedido, empleado  -- , fecha_carga
         from {{ source("raw", "HUB_PEDIDOS") }}
     ),
     stg_clientes_pedidos as (

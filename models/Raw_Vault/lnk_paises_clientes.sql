@@ -9,7 +9,7 @@ with
         from {{ source("raw", "HUB_CLIENTES") }}
     ),
     stg_paises_clientes as (
-        select a.n_name, b.c_name, a.n_origen, b.c_origen
+        select a.n_name, b.c_name, a.n_origen, b.c_origen, b.load_date
         from {{ source("stg", "STG_PAISES") }} a
         join {{ source("stg", "STG_CLIENTES") }} b
         where a.n_nationkey = b.c_nationkey
@@ -24,7 +24,7 @@ with
             p2.hub_cliente_id,
             p1.nombre_pais,
             p2.nombre_cliente,
-            p2.fecha_carga,
+            p3.load_date as fecha_carga,
             p3.n_origen as origen_pais,
             p3.c_origen as origen_cliente
         from hub_paises p1, hub_clientes p2, stg_paises_clientes p3

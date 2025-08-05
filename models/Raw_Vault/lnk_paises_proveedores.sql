@@ -9,7 +9,7 @@ with
         from {{ source("raw", "HUB_PROVEEDORES") }}
     ),
     stg_paises_proveedores as (
-        select a.n_name, b.s_name, a.n_origen, b.s_origen
+        select a.n_name, b.s_name, a.n_origen, b.s_origen--, b.load_date
         from {{ source("stg", "STG_PAISES") }} a
         join {{ source("stg", "STG_PROVEEDORES") }} b on a.n_nationkey = b.s_nationkey
     ),
