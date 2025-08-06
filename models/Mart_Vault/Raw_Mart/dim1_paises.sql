@@ -41,7 +41,7 @@ with
                 and s.dim1_region_id = t.dim1_region_id
                 and s.nombre_pais = t.nombre_pais
                 and s.nombre_region = t.nombre_region
-                and s.fecha_carga = t.fecha_carga
+                and s.fecha_actual = t.fecha_actual
             where t.dim1_pais_id is null
         )
     select *
