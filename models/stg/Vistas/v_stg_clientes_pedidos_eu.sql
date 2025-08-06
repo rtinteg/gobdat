@@ -34,10 +34,10 @@ with
             n_comment,
             n_origen,
             c.load_date as fecha_pais
-        from sdgvaultmart.dbt_sdgvault.stg_clientes a
-        join sdgvaultmart.dbt_sdgvault.stg_pedidos b on a.c_custkey = b.o_custkey
+        from {{ source("stg", "STG_CLIENTES") }} a
+        left join {{ source("stg", "STG_PEDIDOS") }} b on a.c_custkey = b.o_custkey
         join
-            sdgvaultmart.dbt_sdgvault.v_stg_regiones_paises c
+            {{ ref("v_stg_regiones_paises") }} c
             on a.c_nationkey = c.n_nationkey
             and c.n_regionkey = 3
     )
