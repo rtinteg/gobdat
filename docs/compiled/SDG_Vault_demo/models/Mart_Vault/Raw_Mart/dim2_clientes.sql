@@ -28,12 +28,15 @@ with
             fecha_inicial_validez,
             fecha_final_validez
         from sat_clientes_cuenta
-    ),
-    filtrado as (
-        select c.*
-        from con_ids c
-        left join SDGVAULTMART.DBT_SDGVAULT_SILVER.dim2_clientes t on c.dim2_cliente_id = t.dim2_cliente_id
-        where t.dim2_cliente_id is null
     )
-select *
-from filtrado
+
+        ,
+        filtrado as (
+            select c.*
+            from con_ids c
+            left join SDGVAULTMART.DBT_SDGVAULT_SILVER.dim2_clientes t on c.dim2_cliente_id = t.dim2_cliente_id
+            where t.dim2_cliente_id is null
+        )
+    select *
+    from filtrado
+

@@ -9,7 +9,7 @@ with
                 || upper(trim(nvl(hc.nombre_cliente, '')))
                 || upper(trim(nvl(hn.nombre_pais, '')))
             ) as bridge_pedido_id,
-            current_date fecha_carga,
+            greatest(lcp.fecha_carga, lpc.fecha_carga) as fecha_carga,
             hp.hub_pedido_id,
             hp.clave_pedido,
             hp.empleado,

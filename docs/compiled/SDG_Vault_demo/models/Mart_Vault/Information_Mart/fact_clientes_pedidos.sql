@@ -12,7 +12,7 @@ with
         from SDGVAULTMART.DBT_SDGVAULT_BRONZE.BRIDGE_PEDIDOS bp
         join
             SDGVAULTMART.DBT_SDGVAULT_BRONZE.SAT_PEDIDOS sp on bp.hub_pedido_id = sp.hub_pedido_id
-        join
+        LEFT join
             SDGVAULTMART.DBT_SDGVAULT_BRONZE.LNK_PEDIDOS_LINEAS_PEDIDOS lp
             on bp.hub_pedido_id = lp.hub_pedido_id
 
@@ -34,3 +34,4 @@ with
     )
 select *
 from agregado
+--ORDER BY fecha_carga DESC

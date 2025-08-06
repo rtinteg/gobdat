@@ -2,7 +2,10 @@
 
 with
     source_data as (
+
         
+
+            -- Incremental: carga desde CSV
             select
                 o_orderkey,
                 o_custkey,
@@ -13,10 +16,13 @@ with
                 o_clerk,
                 o_shippriority,
                 o_comment,
-                o_origen
+                'CSV' as o_origen,
+                current_date as load_date
             from SDGVAULTMART.DBT_SDGVAULT.PEDIDOS_ELT
-            where o_orderkey not in (select o_orderkey from SDGVAULTMART.DBT_SDGVAULT.stg_pedidos)
+
         
+
     )
+
 select *
 from source_data

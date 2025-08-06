@@ -2,13 +2,14 @@
 
 with
     hub_paises as (
-        select hub_pais_id, nombre_pais, from SDGVAULTMART.DBT_SDGVAULT_BRONZE.HUB_PAISES
+        select hub_pais_id, nombre_pais from SDGVAULTMART.DBT_SDGVAULT_BRONZE.HUB_PAISES
     ),
     hub_clientes as (
-        select hub_cliente_id, nombre_cliente from SDGVAULTMART.DBT_SDGVAULT_BRONZE.HUB_CLIENTES
+        select hub_cliente_id, nombre_cliente, fecha_carga
+        from SDGVAULTMART.DBT_SDGVAULT_BRONZE.HUB_CLIENTES
     ),
     stg_paises_clientes as (
-        select a.n_name, b.c_name, a.n_origen, b.c_origen
+        select a.n_name, b.c_name, a.n_origen, b.c_origen, b.load_date
         from SDGVAULTMART.DBT_SDGVAULT.STG_PAISES a
         join SDGVAULTMART.DBT_SDGVAULT.STG_CLIENTES b
         where a.n_nationkey = b.c_nationkey
@@ -23,7 +24,7 @@ with
             p2.hub_cliente_id,
             p1.nombre_pais,
             p2.nombre_cliente,
-            current_date as fecha_carga,
+            p3.load_date as fecha_carga,
             p3.n_origen as origen_pais,
             p3.c_origen as origen_cliente
         from hub_paises p1, hub_clientes p2, stg_paises_clientes p3

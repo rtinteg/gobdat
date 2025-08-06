@@ -5,11 +5,11 @@ with
         select hub_cliente_id, nombre_cliente, from SDGVAULTMART.DBT_SDGVAULT_BRONZE.HUB_CLIENTES
     ),
     hub_pedidos as (
-        select hub_pedido_id, clave_pedido, empleado
+        select hub_pedido_id, clave_pedido, empleado  -- , fecha_carga
         from SDGVAULTMART.DBT_SDGVAULT_BRONZE.HUB_PEDIDOS
     ),
     stg_clientes_pedidos as (
-        select a.c_name, b.o_orderkey, b.o_clerk, a.c_origen, b.o_origen
+        select a.c_name, b.o_orderkey, b.o_clerk, a.c_origen, b.o_origen, b.load_date
         from SDGVAULTMART.DBT_SDGVAULT.STG_CLIENTES a
         join SDGVAULTMART.DBT_SDGVAULT.STG_PEDIDOS b
         where a.c_custkey = b.o_custkey
@@ -26,9 +26,9 @@ with
             p1.nombre_cliente,
             p2.clave_pedido,
             p2.empleado,
-            current_date as fecha_carga,
-            c_origen as origen_cliente,
-            o_origen as origen_pedido
+            p3.load_date as fecha_carga,
+            p3.c_origen as origen_cliente,
+            p3.o_origen as origen_pedido
         from hub_clientes p1, hub_pedidos p2, stg_clientes_pedidos p3
         where
             p1.nombre_cliente = p3.c_name

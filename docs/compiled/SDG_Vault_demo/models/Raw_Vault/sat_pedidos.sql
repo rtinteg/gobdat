@@ -1,32 +1,48 @@
 
+
 with
     sat_pedidos as (
+        select
+            b.hub_pedido_id,
+            b.fecha_carga,
+            md5(
+                upper(trim(coalesce(a.o_orderstatus, '')))
+                || upper(trim(coalesce(cast(a.o_totalprice as string), '')))
+                || upper(trim(coalesce(cast(a.o_orderdate as string), '')))
+                || upper(trim(coalesce(a.o_orderpriority, '')))
+                || upper(trim(coalesce(a.o_shippriority, '')))
+                || upper(trim(coalesce(a.o_comment, '')))
+            ) as foto_pedido,
+            a.o_origen,
+            a.o_orderstatus as estado_pedido,
+            a.o_totalprice as precio_total,
+            a.o_orderdate as fecha_pedido,
+            a.o_orderpriority as prioridad_ped,
+            a.o_shippriority as prioridad_env,
+            a.o_comment as comentario
+        from SDGVAULTMART.DBT_SDGVAULT.STG_PEDIDOS a
+        join
+            SDGVAULTMART.DBT_SDGVAULT_BRONZE.HUB_PEDIDOS b
+            on a.o_orderkey = b.clave_pedido
+            and a.o_clerk = b.empleado
+
         
-            select
-                b.hub_pedido_id,
-                current_date as fecha_carga,
-                md5(
-                    upper(trim(nvl(a.o_orderstatus, '')))
-                    || upper(trim(nvl(a.o_totalprice, '')))
-                    || upper(trim(nvl(a.o_orderdate, '')))
-                    || upper(trim(nvl(a.o_orderpriority, '')))
-                    || upper(trim(nvl(a.o_shippriority, '')))
-                    || upper(trim(nvl(a.o_comment, '')))
-                    || upper(trim(nvl(a.o_origen, '')))
-                ) as foto_pedido,
-                a.o_origen,
-                a.o_orderstatus as estado_pedido,
-                a.o_totalprice as precio_total,
-                a.o_orderdate as fecha_pedido,
-                a.o_orderpriority as prioridad_ped,
-                a.o_shippriority as prioridad_env,
-                a.o_comment as comentario,
-            from SDGVAULTMART.DBT_SDGVAULT.STG_PEDIDOS a
-            join
-                SDGVAULTMART.DBT_SDGVAULT_BRONZE.HUB_PEDIDOS b
-                on a.o_orderkey = b.clave_pedido
-                and a.o_clerk = b.empleado
-            where hub_pedido_id not in (select hub_pedido_id from SDGVAULTMART.DBT_SDGVAULT_BRONZE.sat_pedidos)
+            -- Solo insertar si la versión (foto) no existe ya
+            where
+                not exists (
+                    select 1
+                    from SDGVAULTMART.DBT_SDGVAULT_BRONZE.sat_pedidos s
+                    where
+                        s.hub_pedido_id = b.hub_pedido_id
+                        and s.foto_pedido = md5(
+                            upper(trim(coalesce(a.o_orderstatus, '')))
+                            || upper(trim(coalesce(cast(a.o_totalprice as string), '')))
+                            || upper(trim(coalesce(cast(a.o_orderdate as string), '')))
+                            || upper(trim(coalesce(a.o_orderpriority, '')))
+                            || upper(trim(coalesce(a.o_shippriority, '')))
+                            || upper(trim(coalesce(a.o_comment, '')))
+                        )
+                )
         
     )
 select *

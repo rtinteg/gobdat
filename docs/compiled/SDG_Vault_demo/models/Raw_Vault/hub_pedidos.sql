@@ -9,7 +9,7 @@ with
                 ) as hub_pedido_id,
                 o_orderkey as clave_pedido,
                 o_clerk as empleado,
-                current_date as fecha_carga,
+                load_date as fecha_carga,
                 o_origen as origen
             from SDGVAULTMART.DBT_SDGVAULT.STG_PEDIDOS
             where
