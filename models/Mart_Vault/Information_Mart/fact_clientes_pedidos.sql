@@ -17,7 +17,7 @@ with
         from {{ source("business", "BRIDGE_PEDIDOS") }} bp
         join
             {{ source("raw", "SAT_PEDIDOS") }} sp on bp.hub_pedido_id = sp.hub_pedido_id
-        join
+        LEFT join
             {{ source("raw", "LNK_PEDIDOS_LINEAS_PEDIDOS") }} lp
             on bp.hub_pedido_id = lp.hub_pedido_id
 
@@ -39,3 +39,4 @@ with
     )
 select *
 from agregado
+--ORDER BY fecha_carga DESC

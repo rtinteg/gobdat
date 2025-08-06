@@ -1,9 +1,12 @@
-{{ config(materialized="incremental", unique_key="c_custkey") }}
+{{ config(materialized="incremental", unique_key=["c_custkey", "load_date"]) }}
 
--- Selección condicional de la fuente de datos
+-- Fuente condicional de datos según tipo de carga
 with
     source_data as (
+
         {% if is_incremental() %}
+
+            -- Incremental: datos nuevos desde CSV
             select
                 c_acctbal,
                 c_address,
@@ -13,10 +16,13 @@ with
                 c_name,
                 c_nationkey,
                 c_phone,
-                c_origen
+                'CSV' as c_origen,
+                current_date as load_date
             from {{ source("stg", "CLIENTES_ELT") }}
-            where c_custkey not in (select c_custkey from {{ this }})
+
         {% else %}
+
+            -- Primera carga: desde tabla fuente intocable (sin origen ni fecha)
             select
                 c_acctbal,
                 c_address,
@@ -26,9 +32,13 @@ with
                 c_name,
                 c_nationkey,
                 c_phone,
-                'Snowflake' as c_origen
+                'Snowflake' as c_origen,
+                current_date - 15 as load_date
             from {{ source("src", "CUSTOMER") }}
+
         {% endif %}
+
     )
+
 select *
 from source_data

@@ -28,12 +28,18 @@ with
             fecha_inicial_validez,
             fecha_final_validez
         from sat_clientes_cuenta
-    ),
-    filtrado as (
-        select c.*
-        from con_ids c
-        left join {{ this }} t on c.dim2_cliente_id = t.dim2_cliente_id
-        where t.dim2_cliente_id is null
     )
-select *
-from filtrado
+{% if is_incremental() %}
+        ,
+        filtrado as (
+            select c.*
+            from con_ids c
+            left join {{ this }} t on c.dim2_cliente_id = t.dim2_cliente_id
+            where t.dim2_cliente_id is null
+        )
+    select *
+    from filtrado
+
+{% else %} select * from con_ids
+
+{% endif %}

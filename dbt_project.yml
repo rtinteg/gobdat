@@ -16,7 +16,7 @@ profile: 'SDG_Vault_demo'
 model-paths: ["models"]
 analysis-paths: ["analyses"]
 test-paths: ["tests"]
-seed-paths: ["seeds"]
+seed-paths: ["seeds/new"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
