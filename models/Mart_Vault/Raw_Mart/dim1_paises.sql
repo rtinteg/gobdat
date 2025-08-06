@@ -7,14 +7,12 @@
             "nombre_pais",
             "nombre_region",
             "fecha_actual",
-            "origen",
         ],
     )
 }}
 
 with
     dim1_paises as (
-
         select
             rp.hub_pais_id as dim1_pais_id,
             rp.hub_region_id as dim1_region_id,
@@ -31,18 +29,24 @@ with
                 where sp2.hub_pais_id = sp.hub_pais_id
             )
 
-    ),
-    filtrado as (
-        select s.*
-        from dim1_paises s
-        left join
-            {{ this }} t
-            on s.dim1_pais_id = t.dim1_pais_id
-            and s.dim1_region_id = t.dim1_region_id
-            and s.nombre_pais = t.nombre_pais
-            and s.nombre_region = t.nombre_region
-            and s.origen = t.origen
-        where t.dim1_pais_id is null
     )
-select *
-from filtrado
+{% if is_incremental() %}
+        ,
+        filtrado as (
+            select s.*
+            from dim1_paises s
+            left join
+                {{ this }} t
+                on s.dim1_pais_id = t.dim1_pais_id
+                and s.dim1_region_id = t.dim1_region_id
+                and s.nombre_pais = t.nombre_pais
+                and s.nombre_region = t.nombre_region
+                and s.fecha_carga = t.fecha_carga
+            where t.dim1_pais_id is null
+        )
+    select *
+    from filtrado
+
+{% else %} select * from dim1_paises
+
+{% endif %}
