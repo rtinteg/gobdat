@@ -73,9 +73,9 @@ with
                 null as fecha_final_validez,
                 cast(
                     md5(
-                        upper(trim(coalesce(nombre_cliente, '')))
-                        || trim(coalesce(segmento_marketing, ''))
-                        || cast(fecha_inicial_validez as string)
+                        upper(trim(coalesce(n.nombre_cliente, '')))
+                        || trim(coalesce(n.segmento_marketing, ''))
+                        || cast(n.fecha_inicial_validez as string)
                     ) as string
                 ) as dim2_cliente_id
             from nuevos_datos n
@@ -106,9 +106,9 @@ with
     select
         cast(
             md5(
-                upper(trim(coalesce(nombre_cliente, '')))
-                || trim(coalesce(segmento_marketing, ''))
-                || cast(fecha_inicial_validez as string)
+                upper(trim(coalesce(r.nombre_cliente, '')))
+                || trim(coalesce(r.segmento_marketing, ''))
+                || cast(r.fecha_inicial_validez as string)
             ) as string
         ) as dim2_cliente_id,
         hub_cliente_id,
