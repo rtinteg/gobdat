@@ -12,7 +12,7 @@ with
                 n_regionkey,
                 n_comment,
                 n_origen,
-                current_date as load_date
+                current_date - 2 as load_date
             from SDGVAULTMART.DBT_SDGVAULT.PAISES_ELT
 
         
