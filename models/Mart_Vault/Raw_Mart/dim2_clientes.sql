@@ -70,9 +70,9 @@ with
                 n.fecha_inicial_validez,
                 null as fecha_final_validez,
                 md5(
-                    upper(trim(coalesce(nombre_cliente, '')))
-                    || trim(coalesce(segmento_marketing, ''))
-                    || cast(fecha_inicial_validez as string)
+                    upper(trim(coalesce(n.nombre_cliente, '')))
+                    || trim(coalesce(n.segmento_marketing, ''))
+                    || cast(n.fecha_inicial_validez as string)
                 ) as dim2_cliente_id
             from nuevos_datos n
             left join registro_actual r on n.hub_cliente_id = r.hub_cliente_id
@@ -101,9 +101,9 @@ with
     union all
     select
         md5(
-            upper(trim(coalesce(nombre_cliente, '')))
-            || trim(coalesce(segmento_marketing, ''))
-            || cast(fecha_inicial_validez as string)
+            upper(trim(coalesce(r.nombre_cliente, '')))
+            || trim(coalesce(r.segmento_marketing, ''))
+            || cast(r.fecha_inicial_validez as string)
         ) as dim2_cliente_id,
         hub_cliente_id,
         nombre_cliente,
@@ -111,7 +111,7 @@ with
         origen,
         fecha_inicial_validez,
         fecha_final_validez
-    from cerrar_versiones
+    from cerrar_versiones r
 
 {% endif %}
 
