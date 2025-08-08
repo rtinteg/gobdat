@@ -19,6 +19,7 @@ with
                     where
                         s.hub_pais_id = b.hub_pais_id
                         and s.foto_pais = md5(upper(trim(nvl(n_comment, ''))))
+                        and s.fecha_carga = b.fecha_carga
                 )
         {% endif %}
     )

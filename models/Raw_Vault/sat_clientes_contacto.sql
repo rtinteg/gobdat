@@ -28,6 +28,7 @@ with
                             || upper(trim(coalesce(a.c_comment, '')))
                             || upper(trim(coalesce(a.c_phone, '')))
                         )
+                        and s.fecha_carga = b.fecha_carga
                 )
         {% endif %}
     )

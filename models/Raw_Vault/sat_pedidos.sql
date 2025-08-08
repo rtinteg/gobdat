@@ -42,8 +42,10 @@ with
                             || upper(trim(coalesce(a.o_shippriority, '')))
                             || upper(trim(coalesce(a.o_comment, '')))
                         )
+                        and s.fecha_carga = b.fecha_carga
                 )
         {% endif %}
     )
 select *
 from sat_pedidos
+

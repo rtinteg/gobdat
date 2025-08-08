@@ -28,6 +28,7 @@ with
                             || upper(trim(nvl(c_comment, '')))
                             || upper(trim(nvl(c_mktsegment, '')))
                         )
+                        and s.fecha_carga = b.fecha_carga
                 )
         {% endif %}
     )
