@@ -12,7 +12,7 @@ with
                 n_regionkey,
                 n_comment,
                 n_origen,
-                current_date as load_date
+                current_date as + 1 load_date
             from {{ source("stg", "PAISES_ELT") }}
 
         {% else %}
