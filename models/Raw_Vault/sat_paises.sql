@@ -10,7 +10,7 @@ with
     src as (
         select
             b.hub_pais_id,
-            a.fecha_carga as fecha_carga,  
+            a.load_date as fecha_carga,  
             md5(upper(trim(coalesce(a.n_comment, '')))) as foto_pais,
             a.n_origen as n_origen,
             a.n_comment as comentario

@@ -10,7 +10,7 @@ with
     src as (
         select
             b.hub_cliente_id,
-            a.fecha_carga as fecha_carga,  
+            a.load_date as fecha_carga,  
             md5(
                 upper(trim(coalesce(a.c_address::varchar, '')))
                 || upper(trim(coalesce(a.c_comment, '')))

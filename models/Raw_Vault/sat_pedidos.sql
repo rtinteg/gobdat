@@ -10,7 +10,7 @@ with
     src as (
         select
             b.hub_pedido_id,
-            a.fecha_carga as fecha_carga,  
+            a.load_date as fecha_carga,  
             md5(
                 upper(trim(coalesce(a.o_orderstatus, '')))
                 || upper(trim(coalesce(cast(a.o_totalprice as string), '')))
