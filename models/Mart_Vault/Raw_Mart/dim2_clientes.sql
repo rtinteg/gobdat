@@ -1,0 +1,93 @@
+{{ config(materialized="incremental", unique_key="dim2_cliente_id") }}
+
+with
+    fuente as (
+        select
+            sc.hub_cliente_id,
+            hc.nombre_cliente,
+            sc.segmento_marketing,
+            sc.c_origen as origen,
+            sc.fecha_carga as fecha_inicial_validez,
+            cast(sc.fecha_carga as string) as fecha_ini_md5
+        from {{ source("raw", "SAT_CLIENTES_CUENTA") }} sc
+        join
+            {{ source("raw", "HUB_CLIENTES") }} hc
+            on sc.hub_cliente_id = hc.hub_cliente_id
+    )
+
+{% if not is_incremental() %}
+        ,
+        ordenado as (
+            select
+                f.*,
+                lead(f.fecha_inicial_validez) over (
+                    partition by f.hub_cliente_id order by f.fecha_inicial_validez
+                ) as fecha_final_validez
+            from fuente f
+        )
+    select
+        md5(
+            upper(trim(coalesce(nombre_cliente, '')))
+            || trim(coalesce(segmento_marketing, ''))
+            || trim(coalesce(fecha_ini_md5, ''))
+        ) as dim2_cliente_id,
+        hub_cliente_id,
+        nombre_cliente,
+        segmento_marketing,
+        origen,
+        fecha_inicial_validez,
+        fecha_final_validez
+    from ordenado
+
+{% else %}
+        ,
+        registro_actual as (
+            select *
+            from {{ this }}
+            qualify
+                row_number() over (
+                    partition by hub_cliente_id order by fecha_inicial_validez desc
+                )
+                = 1
+        ),
+        nuevos_datos as (select * from fuente),
+        cambios as (
+            select
+                n.hub_cliente_id,
+                n.nombre_cliente,
+                n.segmento_marketing,
+                n.origen,
+                n.fecha_inicial_validez,
+                null as fecha_final_validez,
+                md5(
+                    upper(trim(coalesce(n.nombre_cliente, '')))
+                    || trim(coalesce(n.segmento_marketing, ''))
+                    || trim(coalesce(n.fecha_ini_md5, ''))
+                ) as dim2_cliente_id
+            from nuevos_datos n
+            left join registro_actual r on n.hub_cliente_id = r.hub_cliente_id
+            where
+                r.hub_cliente_id is null
+                or r.segmento_marketing != n.segmento_marketing
+                or r.nombre_cliente != n.nombre_cliente
+        ),
+        cerrar_versiones as (
+            select
+                r.hub_cliente_id,
+                r.nombre_cliente,
+                r.segmento_marketing,
+                r.origen,
+                r.fecha_inicial_validez,
+                c.fecha_inicial_validez as fecha_final_validez,
+                r.dim2_cliente_id,
+            from registro_actual r
+            join cambios c on r.hub_cliente_id = c.hub_cliente_id
+        )
+
+    select *
+    from cambios
+    union all
+    select *
+    from cerrar_versiones
+-- order by fecha_inicial_validez DESC 
+{% endif %}
