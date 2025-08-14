@@ -17,7 +17,7 @@ with
                 o_shippriority,
                 o_comment,
                 'CSV' as o_origen,
-                current_date + 2 as load_date
+                current_date - 5 as load_date
             from {{ source("stg", "PEDIDOS_ELT") }}
 
         {% else %}

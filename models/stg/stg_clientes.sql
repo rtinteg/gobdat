@@ -17,7 +17,7 @@ with
                 c_nationkey,
                 c_phone,
                 'CSV' as c_origen,
-                current_date + 2 as load_date
+                current_date -5 as load_date
             from {{ source("stg", "CLIENTES_ELT") }}
 
         {% else %}
