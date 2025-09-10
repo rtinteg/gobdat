@@ -35,7 +35,10 @@ with
             n_origen,
             c.load_date as fecha_pais
         from {{ source("stg", "STG_CLIENTES") }} a
-        left join {{ source("stg", "STG_PEDIDOS") }} b on a.c_custkey = b.o_custkey
+        join
+            {{ source("stg", "STG_PEDIDOS") }} b
+            on a.c_custkey = b.o_custkey
+            and a.load_date = b.load_date
         join
             {{ ref("v_stg_regiones_paises") }} c
             on a.c_nationkey = c.n_nationkey
@@ -43,3 +46,4 @@ with
     )
 select *
 from stg_clientes_pedidos_europa
+order by c_origen, o_orderkey desc
