@@ -1,0 +1,7 @@
+
+
+select *
+from SDGVAULTMART.DBT_SDGVAULT_BRONZE.LNK_PAISES_CLIENTES
+where
+    nombre_pais
+    in ('ESPAÑA', 'GERMANY', 'RUSSIA', 'ROMANIA', 'UNITED KINGDOM', 'FRANCE')
